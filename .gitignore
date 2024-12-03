@@ -6,3 +6,4 @@ output/*
 uploads/*
 .env
 .aider*
+.gitignore
