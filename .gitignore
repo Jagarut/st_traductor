@@ -1,0 +1,8 @@
+*.pyc
+__pycache__
+# virtual environment
+.venv
+output/*
+uploads/*
+.env
+.aider*

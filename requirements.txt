@@ -1,0 +1,9 @@
+groq
+pymupdf
+fpdf2
+python-dotenv
+requests
+openai
+ebooklib
+beautifulsoup4
+streamlit
