@@ -5,5 +5,4 @@ __pycache__
 output/*
 uploads/*
 .env
-.aider*
 .gitignore
