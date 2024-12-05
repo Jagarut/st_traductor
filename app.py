@@ -103,23 +103,42 @@ def main():
         for dir_path in [upload_dir, translations_dir, output_dir]:
             # Create each directory if it doesn't exist, skip if it does
             dir_path.mkdir(exist_ok=True)
-        
+
+        st.markdown("""
+            <style>
+            .password-label {
+                color: #0ECB81;
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin-bottom: -65px;
+                padding-bottom: 0px;
+                display: block;
+            }
+            </style>
+            <p class="password-label">🔐 Ingresa la contraseña</p>
+            """, unsafe_allow_html=True)
+        password = st.text_input("", type="password")
+        correct_password = st.secrets["TRANSLATOR_PASSWORD"]
         # Translation process
         if st.button("🚀 Traducir"):
-            with st.spinner("Traduciendo..."):
-                # When not using chunks, we can pass any value like 0 or 1
-                chunk_size = chunk_size if use_chunks else 1
-                output_pdf = translate_document(uploaded_file, model, use_chunks, chunk_size)
+            if password == correct_password:
+                with st.spinner("Traduciendo..."):
+                    # When not using chunks, we can pass any value like 0 or 1
+                    chunk_size = chunk_size if use_chunks else 1
+                    output_pdf = translate_document(uploaded_file, model, use_chunks, chunk_size)
+                    
+                    # Provide download option for translated document
+                    with open(output_pdf, "rb") as pdf:
+                        st.success("✨ Traducción completada!")
+                        st.download_button(
+                            "📥 Descargar traducción",
+                            pdf,
+                            file_name=f"translated_{uploaded_file.name}",
+                        )
                 
-                # Provide download option for translated document
-                with open(output_pdf, "rb") as pdf:
-                    st.success("✨ Traducción completada!")
-                    st.download_button(
-                        "📥 Descargar traducción",
-                        pdf,
-                        file_name=f"translated_{uploaded_file.name}",
-                    )
-
+            else:
+                st.error("🚨 Contraseña incorrecta. Inténtalo de nuevo.")
+                
 if __name__ == "__main__":
     main()
 
